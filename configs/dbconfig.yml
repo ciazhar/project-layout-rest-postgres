@@ -1,0 +1,17 @@
+local:
+  dialect: postgres
+  datasource: user=postgres dbname=project_layout sslmode=disable search_path=project_layout_rest_postgres
+  dir: db/migrations
+  table: migrations
+
+development:
+  dialect: postgres
+  datasource: user=postgres dbname=project_layout sslmode=disable search_path=project_layout_rest_postgres
+  dir: db/migrations
+  table: migrations
+
+production:
+  dialect: postgres
+  datasource: user=postgres dbname=project_layout sslmode=disable search_path=project_layout_rest_postgres
+  dir: db/migrations
+  table: migrations

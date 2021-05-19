@@ -1,0 +1,12 @@
+{
+  "name": "project layout service",
+  "profile": "release",
+  "version": "v6.1.1",
+  "port":"8180",
+  "postgres.host": "localhost",
+  "postgres.username": "postgres",
+  "postgres.password": "",
+  "postgres.database": "project_layout",
+  "postgres.port": "5432",
+  "postgres.schema": "project_layout_rest_postgres"
+}

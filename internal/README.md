@@ -1,0 +1,2 @@
+# Direktori `/internal`
+> Direktori ini berisi file yang hanya digunakan untuk aplikasi ini. Disini saya menaruh file `mocks` yang berisi mock. Kenapa ? karena jika tidak ditaruh di internal maka akan terdeteksi sebagai file saat di scan menggunakan `SonarQube`. 

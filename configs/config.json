@@ -1,0 +1,12 @@
+{
+  "name": "project layout service",
+  "profile": "debug",
+  "version": "v6.1.1",
+  "port":"8080",
+  "postgres.host": "localhost",
+  "postgres.username": "postgres",
+  "postgres.password": "",
+  "postgres.database": "project_layout",
+  "postgres.port": "5432",
+  "postgres.schema": "project_layout_rest_postgres"
+}
