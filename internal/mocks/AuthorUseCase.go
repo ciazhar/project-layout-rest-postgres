@@ -4,7 +4,6 @@ package mocks
 
 import (
 	model "github.com/ciazhar/project-layout-rest-postgres/pkg/author/model"
-	query "github.com/ciazhar/project-layout-rest-postgres/third_party/query"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -27,13 +26,13 @@ func (_m *AuthorUseCase) Delete(id string) error {
 	return r0
 }
 
-// Fetch provides a mock function with given fields: q
-func (_m *AuthorUseCase) Fetch(q *query.Query) ([]model.Author, error) {
-	ret := _m.Called(q)
+// Fetch provides a mock function with given fields: param
+func (_m *AuthorUseCase) Fetch(param model.FetchParam) ([]model.Author, error) {
+	ret := _m.Called(param)
 
 	var r0 []model.Author
-	if rf, ok := ret.Get(0).(func(*query.Query) []model.Author); ok {
-		r0 = rf(q)
+	if rf, ok := ret.Get(0).(func(model.FetchParam) []model.Author); ok {
+		r0 = rf(param)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]model.Author)
@@ -41,8 +40,8 @@ func (_m *AuthorUseCase) Fetch(q *query.Query) ([]model.Author, error) {
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(*query.Query) error); ok {
-		r1 = rf(q)
+	if rf, ok := ret.Get(1).(func(model.FetchParam) error); ok {
+		r1 = rf(param)
 	} else {
 		r1 = ret.Error(1)
 	}
