@@ -18,3 +18,10 @@ Struktur dan technology stack project ini sendiri diilhami dari :
 create schema if not exists project_layout_rest_postgres
 ```
  
+
+## Stack
+- [CLI](https://github.com/spf13/cobra)
+- [Config File](https://github.com/spf13/viper)
+- [Database (PostgreSQL)](https://github.com/jackc/pgx)
+  https://github.com/georgysavva/scany
+- Logger 

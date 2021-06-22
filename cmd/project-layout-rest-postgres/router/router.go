@@ -11,6 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/pprof"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/spf13/viper"
 )
 
 func Init(a app.Application) error {
@@ -61,6 +62,6 @@ func Init(a app.Application) error {
 	})
 
 	//run
-	logger.Info("appplication start in port : " + a.Env.Get("port"))
-	return r.Listen(":" + a.Env.Get("port"))
+	logger.Info("appplication start in port : " + viper.GetString("port"))
+	return r.Listen(":" + viper.GetString("port"))
 }

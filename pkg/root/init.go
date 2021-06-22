@@ -7,7 +7,7 @@ import (
 
 func Init(app app.Application) {
 
-	controller := rest.NewRootRestController(app.Env)
+	controller := rest.NewRootRestController()
 
 	r := app.Router.Group("/")
 	r.Get("/", controller.Root)

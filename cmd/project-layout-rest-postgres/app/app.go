@@ -10,19 +10,18 @@ import (
 )
 
 type Application struct {
-	Env       env.Util
 	Validator validator.Util
 	Postgres  pg.Util
 	Router    fiber.Router
 }
 
-func Init() (Application, error) {
+func Init(e string) (Application, error) {
 
 	//init
-	e := env.Init()
+	env.Init(e)
 	logger.Init()
 	v := validator.Init()
-	p := pg.Init(e)
+	p := pg.Init()
 
 	//set default timezone
 	if err := os.Setenv("TZ", "Asia/Jakarta"); err != nil {
@@ -30,7 +29,6 @@ func Init() (Application, error) {
 	}
 
 	return Application{
-		Env:       e,
 		Validator: v,
 		Postgres:  p,
 	}, nil

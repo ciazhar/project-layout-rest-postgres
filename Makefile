@@ -1,4 +1,5 @@
 app-name = "project-layout-rest-postgres"
+env="config"
 
 # make install evn=init-local
 install:
@@ -6,7 +7,7 @@ install:
 
 #make run env=dev
 run:
-	go run cmd/$(app-name)/main.go $(env)
+	go run cmd/$(app-name)/main.go --env $(env)
 
 #make build
 build:
