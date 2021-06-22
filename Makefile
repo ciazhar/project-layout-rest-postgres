@@ -5,7 +5,7 @@ env="config"
 install:
 	sql-migrate up -env=$(env) -config=configs/dbconfig.yml
 
-#make run env=dev
+#make run env=config-dev
 run:
 	go run cmd/$(app-name)/main.go --env $(env)
 
