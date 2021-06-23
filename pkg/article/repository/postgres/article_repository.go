@@ -1,16 +1,15 @@
 package postgres
 
 import (
+	"context"
+	"fmt"
 	"github.com/ciazhar/project-layout-rest-postgres/pkg/article/model"
-	"github.com/ciazhar/project-layout-rest-postgres/third_party/query"
-	"github.com/ciazhar/project-layout-rest-postgres/third_party/query/pg"
+	"github.com/ciazhar/project-layout-rest-postgres/third_party/db"
 	"github.com/ciazhar/project-layout-rest-postgres/third_party/response"
-	"github.com/go-pg/pg/v10/orm"
+	"github.com/georgysavva/scany/pgxscan"
 	"github.com/google/uuid"
-	"sync"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
-
-var once sync.Once
 
 type ArticlePostgresRepository interface {
 	Fetch(param model.FetchParam) ([]model.FetchResponse, error)
@@ -21,57 +20,62 @@ type ArticlePostgresRepository interface {
 }
 
 type repository struct {
-	pg pg.Util
+	*pgxpool.Pool
+	tableName string
 }
 
 func (r repository) Delete(id string) error {
-	object := &model.Article{
-		Id: uuid.MustParse(id),
-	}
-	_, err := r.pg.DB().Model(object).WherePK().Delete(object)
+	sql := fmt.Sprintf("update %s set deleted_at = now() where id = $1", r.tableName)
+	_, err := r.Exec(context.Background(), sql, id)
 	return response.Error(err)
 }
 
 func (r repository) Fetch(param model.FetchParam) ([]model.FetchResponse, error) {
-
-	offset, limit := query.ToOffsetLimit(param.Paginate, param.Page, param.Size)
-
 	resp := make([]model.FetchResponse, 0)
-	q := "SELECT * FROM fetch_article(?,?,?,?,?,?)"
-	_, err := r.pg.DB().Query(&resp, q, param.Title, param.AuthorID, param.From, param.Until, limit, offset)
-	return resp, response.Error(err)
+	offset, limit := db.ToOffsetLimit(param.Paginate, param.Page, param.Size)
+	sql := "SELECT * FROM fetch_article($1,$2,$3,$4,$5,$6)"
+	if err := pgxscan.Select(context.Background(), r.Pool, &resp, sql, param.Title, param.AuthorID, param.From, param.Until, limit, offset); err != nil {
+		return resp, response.Error(err)
+	}
+	return resp, nil
 }
 
 func (r repository) GetByID(id string) (model.Article, error) {
-	Article := model.Article{Id: uuid.MustParse(id)}
-	if err := r.pg.DB().Model(&Article).WherePK().Select(); err != nil {
-		return Article, response.Error(err)
+	resp := model.Article{Id: uuid.MustParse(id)}
+	sql := fmt.Sprintf("select * from %s where id=$1", r.tableName)
+	if err := pgxscan.Get(context.Background(), r.Pool, &resp, sql, id); err != nil {
+		return resp, response.Error(err)
 	}
-	return Article, nil
+	return resp, nil
 }
 
 func (r repository) Store(req *model.Article) error {
 	req.Id = uuid.New()
-	_, err := r.pg.DB().Model(req).Insert()
-	return response.Error(err)
+	sql := fmt.Sprintf("insert into %s(id,title,content,author_id,created_at,updated_at) values($1,$2,$3,$4,now(),now())", r.tableName)
+	if _, err := r.Exec(context.Background(), sql, req.Id, req.Title, req.Content, req.AuthorID); err != nil {
+		return response.Error(err)
+	}
+	return nil
 }
 
 func (r repository) Update(req *model.Article) error {
-	_, err := r.pg.DB().Model(req).WherePK().Update()
-	return response.Error(err)
+	sql := fmt.Sprintf(`
+		update %s
+		set title       = (case when $2 = '' then title else $2 end),
+			content       = (case when $3 = '' then content else $3 end),
+			author_id       = (case when $4 is null then author_id else $4 end),
+			updated_at = now()
+		where id = $1
+	`, r.tableName)
+	if _, err := r.Exec(context.Background(), sql, req.Id, req.Title, req.Content, req.AuthorID); err != nil {
+		return response.Error(err)
+	}
+	return nil
 }
 
-func NewArticlePostgresRepository(pg pg.Util) ArticlePostgresRepository {
-	once.Do(func() {
-		if err := pg.DB().Model((*model.Article)(nil)).CreateTable(&orm.CreateTableOptions{
-			IfNotExists:   true,
-			Temp:          false,
-			FKConstraints: true,
-		}); err != nil {
-			panic(err)
-		}
-	})
+func NewArticlePostgresRepository(pool *pgxpool.Pool) ArticlePostgresRepository {
 	return repository{
-		pg: pg,
+		Pool:      pool,
+		tableName: "article",
 	}
 }

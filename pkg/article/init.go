@@ -8,7 +8,7 @@ import (
 )
 
 func Init(app app.Application) {
-	repo := postgres.NewArticlePostgresRepository(app.Postgres)
+	repo := postgres.NewArticlePostgresRepository(app.DB)
 	uc := usecase.NewArticleUseCase(app.Validator, repo)
 	controller := rest.NewArticleController(uc)
 

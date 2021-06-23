@@ -7,7 +7,7 @@ import (
 
 var once sync.Once
 
-var sugaredLogger *zap.SugaredLogger
+var Logger *zap.Logger
 
 // Init returns an instance of logger
 func Init() {
@@ -24,17 +24,17 @@ func Init() {
 		}
 
 		var err error
-		sugaredLogger, err = newZapLogger(config)
+		Logger, err = newZapLogger(config)
 		if err != nil {
 			panic(err.Error())
 		}
 	})
 }
 
-func Info(format string, args ...interface{}) {
-	sugaredLogger.Infof(format, args...)
+func Info(format string) {
+	Logger.Info(format)
 }
 
-func Error(format string, args ...interface{}) {
-	sugaredLogger.Errorf(format, args...)
+func Error(format string) {
+	Logger.Error(format)
 }

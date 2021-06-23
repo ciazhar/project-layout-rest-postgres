@@ -1,4 +1,4 @@
-package query
+package db
 
 func ToOffsetLimit(paginate *bool, page, size *int) (int, int) {
 	offset := 0

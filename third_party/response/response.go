@@ -19,7 +19,6 @@ const (
 	CodeUnknownError      = 2
 	CodeBadRequest        = 3
 	CodeNotExist          = 4
-	CodeDuplicate         = 5
 )
 
 func Data(data interface{}) Response {
@@ -28,10 +27,6 @@ func Data(data interface{}) Response {
 		Code:    CodeSuccess,
 		Data:    data,
 	}
-}
-
-type Service struct {
-	Name string `json:"name"`
 }
 
 func Success(ctx *fiber.Ctx, data interface{}) error {
@@ -51,10 +46,6 @@ func Error(err error, code ...Code) error {
 
 	switch r := err.Error(); {
 	case strings.Contains(r, "MustExist") == true:
-		return fiber.NewError(CodeNotExist, err.Error())
-	case strings.Contains(r, "#23505") == true:
-		return fiber.NewError(CodeDuplicate, err.Error())
-	case strings.Contains(r, "#23503") == true:
 		return fiber.NewError(CodeNotExist, err.Error())
 	}
 

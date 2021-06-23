@@ -1,6 +1,7 @@
 package logger
 
 import (
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -56,7 +57,7 @@ func getEncoder(isJSON bool) zapcore.Encoder {
 	return zapcore.NewConsoleEncoder(encoderConfig)
 }
 
-func newZapLogger(config Configuration) (*zap.SugaredLogger, error) {
+func newZapLogger(config Configuration) (*zap.Logger, error) {
 	var cores []zapcore.Core
 
 	if config.EnableConsole {
@@ -85,8 +86,8 @@ func newZapLogger(config Configuration) (*zap.SugaredLogger, error) {
 	logger := zap.New(combinedCore,
 		zap.AddCallerSkip(2),
 		zap.AddCaller(),
-		zap.Fields(zap.String("service", "project-layout-rest-postgres")),
-	).Sugar()
+		zap.Fields(zap.String("service", viper.GetString("name"))),
+	)
 
 	return logger, nil
 }

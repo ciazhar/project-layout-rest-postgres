@@ -1,17 +1,18 @@
 package app
 
 import (
+	"github.com/ciazhar/project-layout-rest-postgres/third_party/db"
 	"github.com/ciazhar/project-layout-rest-postgres/third_party/env"
 	"github.com/ciazhar/project-layout-rest-postgres/third_party/logger"
-	"github.com/ciazhar/project-layout-rest-postgres/third_party/query/pg"
 	"github.com/ciazhar/project-layout-rest-postgres/third_party/validator"
 	"github.com/gofiber/fiber/v2"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"os"
 )
 
 type Application struct {
 	Validator validator.Util
-	Postgres  pg.Util
+	DB        *pgxpool.Pool
 	Router    fiber.Router
 }
 
@@ -21,7 +22,7 @@ func Init(e string) (Application, error) {
 	env.Init(e)
 	logger.Init()
 	v := validator.Init()
-	p := pg.Init()
+	dbx := db.Init()
 
 	//set default timezone
 	if err := os.Setenv("TZ", "Asia/Jakarta"); err != nil {
@@ -30,6 +31,6 @@ func Init(e string) (Application, error) {
 
 	return Application{
 		Validator: v,
-		Postgres:  p,
+		DB:        dbx,
 	}, nil
 }

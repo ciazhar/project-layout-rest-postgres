@@ -6,12 +6,11 @@ import (
 )
 
 type Author struct {
-	tableName struct{}  `pg:"author"`
-	Id        uuid.UUID `json:"id"  pg:",pk,type:uuid"`
-	Name      string    `json:"name"`
-	CreatedAt time.Time `json:"created_at" `
-	UpdatedAt time.Time `json:"updated_at" `
-	DeletedAt time.Time `json:"deleted_at"  pg:",soft_delete"`
+	Id        uuid.UUID  `json:"id"`
+	Name      string     `json:"name"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
 }
 
 type FetchParam struct {
