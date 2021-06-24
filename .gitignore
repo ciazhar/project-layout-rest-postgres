@@ -1,3 +1,4 @@
 configs/firebase-key.json
 .idea
 logs
+cp.out
