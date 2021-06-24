@@ -5,11 +5,10 @@ go 1.15
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/georgysavva/scany v0.2.8
-	github.com/go-pg/pg/v10 v10.7.3
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/gofiber/fiber/v2 v2.1.4
 	github.com/google/uuid v1.1.2
-	github.com/imdario/mergo v0.3.11
+	github.com/jackc/pgproto3/v2 v2.1.0 // indirect
 	github.com/jackc/pgx/v4 v4.11.0
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/spf13/viper v1.8.0
