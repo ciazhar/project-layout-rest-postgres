@@ -1,7 +1,8 @@
-package testdata
+package test
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"runtime"
@@ -10,10 +11,8 @@ import (
 
 func ToStruct(filename string, obj interface{}) {
 	_, b, _, _ := runtime.Caller(0)
-	basepath := filepath.Dir(b)
-
-	expected, _ := ioutil.ReadFile(basepath + "/" + filename)
-
+	path := fmt.Sprintf(filepath.Dir(b) + "/data/" + filename)
+	expected, _ := ioutil.ReadFile(path)
 	if err := json.Unmarshal(expected, &obj); err != nil {
 		panic(err)
 	}
