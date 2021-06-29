@@ -24,8 +24,6 @@ test:
 
 coverage:
 	go test -coverprofile cp.out ./...
-
-coverage-html:
 	go tool cover -html=cp.out
 
 mock:
