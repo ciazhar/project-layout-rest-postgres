@@ -74,7 +74,7 @@ func TestRepositoryStore(t *testing.T) {
 			assert.Equal(t, err, testCase.error)
 
 			if testCase.name == "insert-default-success" {
-				ID = testCase.payload.Id
+				ID = testCase.payload.ID
 			}
 		})
 	}
@@ -145,7 +145,7 @@ func TestRepositoryUpdate(t *testing.T) {
 	repo := NewAuthorPostgresRepository(pool)
 
 	t.Run("default", func(t *testing.T) {
-		actual.Id = ID
+		actual.ID = ID
 		err := repo.Update(&actual)
 		assert.NoError(t, err)
 	})

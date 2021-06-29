@@ -36,7 +36,7 @@ package postgres
 //	t.Run("default", func(t *testing.T) {
 //		err := repo.Store(&actual)
 //		assert.NoError(t, err)
-//		ID = actual.Id
+//		ID = actual.ID
 //	})
 //	t.Run("default2", func(t *testing.T) {
 //		err := repo.Store(&actual2)
@@ -92,7 +92,7 @@ package postgres
 //	repo := NewArticlePostgresRepository()
 //
 //	t.Run("default", func(t *testing.T) {
-//		actual.Id = ID
+//		actual.ID = ID
 //		err := repo.Update(&actual)
 //		assert.NoError(t, err)
 //	})

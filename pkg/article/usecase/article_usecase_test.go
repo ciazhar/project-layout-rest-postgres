@@ -99,7 +99,7 @@ package usecase
 //	repo := new(mocks.ArticlePostgresRepository)
 //	uc := NewArticleUseCase(repo)
 //	actual := NewActual()
-//	actual.Id = "100"
+//	actual.ID = "100"
 //	testCases := []struct {
 //		name        string
 //		article model.Article
@@ -111,7 +111,7 @@ package usecase
 //
 //	for _, testCase := range testCases {
 //		t.Run(testCase.name, func(t *testing.T) {
-//			repo.On("GetByID", testCase.article.Id).Return(testCase.article, testCase.returnError)
+//			repo.On("GetByID", testCase.article.ID).Return(testCase.article, testCase.returnError)
 //			repo.On("Update", &testCase.article).Return(testCase.returnError)
 //
 //			err := uc.Update(&testCase.article)
@@ -124,7 +124,7 @@ package usecase
 //
 //func TestArticleUseCase_Delete(t *testing.T) {
 //	actual := NewActual()
-//	actual.Id = "100"
+//	actual.ID = "100"
 //	repo := new(mocks.ArticlePostgresRepository)
 //	uc := NewArticleUseCase(repo)
 //	testCases := []struct {
@@ -143,12 +143,12 @@ package usecase
 //			patch := monkey.Patch(time.Now, func() time.Time { return wayback })
 //			defer patch.Unpatch()
 //
-//			repo.On("GetByID", testCase.article.Id).Return(testCase.article, testCase.returnError)
+//			repo.On("GetByID", testCase.article.ID).Return(testCase.article, testCase.returnError)
 //
 //			testCase.article.DeletedAt = time.Now()
 //			repo.On("Update", &testCase.article).Return(testCase.returnError)
 //
-//			err := uc.Delete(testCase.article.Id)
+//			err := uc.Delete(testCase.article.ID)
 //
 //			assert.Equal(t, err, testCase.returnError)
 //			//repo.AssertExpectations(t)

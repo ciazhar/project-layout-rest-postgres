@@ -41,7 +41,7 @@ func (r repository) Fetch(param model.FetchParam) ([]model.FetchResponse, error)
 }
 
 func (r repository) GetByID(id string) (model.Article, error) {
-	resp := model.Article{Id: uuid.MustParse(id)}
+	resp := model.Article{ID: uuid.MustParse(id)}
 	sql := fmt.Sprintf("select * from %s where id=$1", r.tableName)
 	if err := pgxscan.Get(context.Background(), r.Pool, &resp, sql, id); err != nil {
 		return resp, response.Error(err)
@@ -50,9 +50,9 @@ func (r repository) GetByID(id string) (model.Article, error) {
 }
 
 func (r repository) Store(req *model.Article) error {
-	req.Id = uuid.New()
+	req.ID = uuid.New()
 	sql := fmt.Sprintf("insert into %s(id,title,content,author_id,created_at,updated_at) values($1,$2,$3,$4,now(),now())", r.tableName)
-	if _, err := r.Exec(context.Background(), sql, req.Id, req.Title, req.Content, req.AuthorID); err != nil {
+	if _, err := r.Exec(context.Background(), sql, req.ID, req.Title, req.Content, req.AuthorID); err != nil {
 		return response.Error(err)
 	}
 	return nil
@@ -67,7 +67,7 @@ func (r repository) Update(req *model.Article) error {
 			updated_at = now()
 		where id = $1
 	`, r.tableName)
-	if _, err := r.Exec(context.Background(), sql, req.Id, req.Title, req.Content, req.AuthorID); err != nil {
+	if _, err := r.Exec(context.Background(), sql, req.ID, req.Title, req.Content, req.AuthorID); err != nil {
 		return response.Error(err)
 	}
 	return nil

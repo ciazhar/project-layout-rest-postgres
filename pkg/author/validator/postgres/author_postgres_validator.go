@@ -17,10 +17,10 @@ type authorPostgresValidator struct {
 
 func (r authorPostgresValidator) AuthorMustExist(fl validator.FieldLevel) bool {
 	id := fl.Field().Interface().(uuid.UUID)
-	return r.validateAuthorId(id)
+	return r.validateAuthorID(id)
 }
 
-func (r authorPostgresValidator) validateAuthorId(id uuid.UUID) bool {
+func (r authorPostgresValidator) validateAuthorID(id uuid.UUID) bool {
 	if id != uuid.Nil {
 		if _, err := r.AuthorRepository.GetByID(id.String()); err != nil {
 			return false

@@ -6,7 +6,7 @@ import (
 )
 
 type Author struct {
-	Id        uuid.UUID  `json:"id"`
+	ID        uuid.UUID  `json:"id"`
 	Name      string     `json:"name"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
@@ -21,6 +21,6 @@ type FetchParam struct {
 }
 
 type FetchResponse struct {
-	Id   uuid.UUID `json:"id"`
+	ID   uuid.UUID `json:"id"`
 	Name string    `json:"name"`
 }

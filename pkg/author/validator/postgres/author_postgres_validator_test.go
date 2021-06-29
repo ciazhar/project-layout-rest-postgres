@@ -19,7 +19,7 @@ package postgres
 //}
 //
 //func NewPostExample() RoleExample {
-//	return RoleExample{RoleId: NewRole().Id.String()}
+//	return RoleExample{RoleId: NewRole().ID.String()}
 //}
 //
 //func TestRolePostgresValidatorInit(t *testing.T) {

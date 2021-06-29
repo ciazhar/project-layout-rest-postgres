@@ -39,16 +39,16 @@ func (r repository) Fetch(param model.FetchParam) ([]model.Author, error) {
 }
 
 func (r repository) GetByID(id string) (model.Author, error) {
-	resp := model.Author{Id: uuid.MustParse(id)}
+	resp := model.Author{ID: uuid.MustParse(id)}
 	sql := fmt.Sprintf("select * from %s where id=$1", r.tableName)
 	err := pgxscan.Get(context.Background(), r.Pool, &resp, sql, id)
 	return resp, response.Error(err)
 }
 
 func (r repository) Store(req *model.Author) error {
-	req.Id = uuid.New()
+	req.ID = uuid.New()
 	sql := fmt.Sprintf("insert into %s(id,name,created_at,updated_at) values($1,$2,now(),now())", r.tableName)
-	_, err := r.Exec(context.Background(), sql, req.Id, req.Name)
+	_, err := r.Exec(context.Background(), sql, req.ID, req.Name)
 	return response.Error(err)
 }
 
@@ -59,7 +59,7 @@ func (r repository) Update(req *model.Author) error {
 			updated_at = now()
 		where id = $1
 	`, r.tableName)
-	_, err := r.Exec(context.Background(), sql, req.Id, req.Name)
+	_, err := r.Exec(context.Background(), sql, req.ID, req.Name)
 	return response.Error(err)
 }
 

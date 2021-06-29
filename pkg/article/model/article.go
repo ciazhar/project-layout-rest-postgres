@@ -7,15 +7,14 @@ import (
 )
 
 type Article struct {
-	tableName struct{}      `pg:"article"`
-	Id        uuid.UUID     `json:"id"  pg:",pk,type:uuid"`
+	ID        uuid.UUID     `json:"id"`
 	Title     string        `json:"title" validate:"required"`
 	Content   string        `json:"content" validate:"required"`
-	AuthorID  uuid.UUID     `json:"author_id" pg:"type:uuid" validate:"authorMustExist"`
-	Author    *model.Author `json:"author" pg:"rel:has-one"`
-	CreatedAt time.Time     `json:"created_at" `
-	UpdatedAt time.Time     `json:"updated_at" `
-	DeletedAt time.Time     `json:"deleted_at"  pg:",soft_delete"`
+	AuthorID  uuid.UUID     `json:"author_id" validate:"authorMustExist"`
+	Author    *model.Author `json:"author"`
+	CreatedAt time.Time     `json:"created_at"`
+	UpdatedAt time.Time     `json:"updated_at"`
+	DeletedAt time.Time     `json:"deleted_at"`
 }
 
 type FetchParam struct {
@@ -29,7 +28,7 @@ type FetchParam struct {
 }
 
 type FetchResponse struct {
-	Id        uuid.UUID            `json:"id"`
+	ID        uuid.UUID            `json:"id"`
 	Title     string               `json:"title"`
 	Content   string               `json:"content"`
 	Author    *model.FetchResponse `json:"author"`
